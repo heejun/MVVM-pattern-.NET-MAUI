@@ -23,7 +23,6 @@
         RemainingItemsThreshold="5"
         RemainingItemsThresholdReachedCommand="{Binding TryLoadMoreItemsCommand}"
         SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}"
-        SelectionChanged="CollectionView_SelectionChanged"
         SelectionChangedCommand="{Binding NavigateToSelectedDetailCommand}"
         SelectionMode="Single">
         <CollectionView.ItemTemplate>

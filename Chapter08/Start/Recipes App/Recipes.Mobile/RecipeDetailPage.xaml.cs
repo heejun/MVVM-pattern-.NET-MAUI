@@ -8,9 +8,4 @@ public partial class RecipeDetailPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
-
-    private void Ratings_Tapped(object sender, TappedEventArgs e)
-    {
-        Shell.Current.GoToAsync("RecipeRating");
-    }
 }

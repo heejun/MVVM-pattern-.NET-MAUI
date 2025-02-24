@@ -3,12 +3,14 @@ using CommunityToolkit.Mvvm.Input;
 using Recipes.Client.Core.Features.Favorites;
 using Recipes.Client.Core.Features.Ratings;
 using Recipes.Client.Core.Features.Recipes;
+using Recipes.Client.Core.Navigation;
 using System.Collections.ObjectModel;
 
 namespace Recipes.Client.Core.ViewModels;
 
 public partial class RecipeDetailViewModel : ObservableObject
 {
+    private readonly INavigationService navigationService;
     private readonly IRecipeService recipeService;
     private readonly IFavoritesService favoritesService;
     private readonly IRatingsService ratingsService;
@@ -118,8 +120,10 @@ public partial class RecipeDetailViewModel : ObservableObject
 
     public RecipeDetailViewModel(IRecipeService recipeService, 
         IFavoritesService favoritesService, 
-        IRatingsService ratingsService)
+        IRatingsService ratingsService,
+        INavigationService navigationService)
     {
+        this.navigationService = navigationService;
         this.recipeService = recipeService;
         this.favoritesService  = favoritesService;
         this.ratingsService = ratingsService;
@@ -131,6 +135,8 @@ public partial class RecipeDetailViewModel : ObservableObject
         UserIsBrowsingCommand = new RelayCommand(UserIsBrowsing);
         AddToShoppingListCommand = new RelayCommand<RecipeIngredientViewModel>(AddToShoppingList);
         RemoveFromShoppingListCommand = new RelayCommand<RecipeIngredientViewModel>(RemoveFromShoppingList);
+
+        NavigateToRatingsCommand = new AsyncRelayCommand(NavigateToRatings);
 
         LoadRecipe("3");
     }
@@ -209,4 +215,6 @@ public partial class RecipeDetailViewModel : ObservableObject
         if (ShoppingList.Contains(viewModel))
             ShoppingList.Remove(viewModel);
     }
+
+    private Task NavigateToRatings() => navigationService.GoToRecipeRatingDetail(recipeDto);
 }

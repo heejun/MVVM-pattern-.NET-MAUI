@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using Recipes.Client.Core.Features.Favorites;
 using Recipes.Client.Core.Features.Ratings;
 using Recipes.Client.Core.Features.Recipes;
+using Recipes.Client.Core.Navigation;
 using Recipes.Client.Core.ViewModels;
+using Recipes.Mobile.Navigation;
 
 namespace Recipes.Mobile;
 
@@ -22,6 +24,7 @@ public static class MauiProgram
             });
         builder.UseMauiCommunityToolkit();
 
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<RecipesOverviewPage>();
         builder.Services.AddTransient<RecipesOverviewViewModel>();

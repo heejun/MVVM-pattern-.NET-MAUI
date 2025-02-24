@@ -113,7 +113,7 @@
                         Text="{Binding RatingSummary.AverageRating, StringFormat='{0:0.#} avg. rating', FallbackValue='Ratings not available', TargetNullValue='No ratings yet'}"
                         VerticalOptions="End" />
                     <HorizontalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Ratings_Tapped" />
+                        <TapGestureRecognizer Command="{Binding NavigateToRatingsCommand}" />
                     </HorizontalStackLayout.GestureRecognizers>
                 </HorizontalStackLayout>
             </VerticalStackLayout>

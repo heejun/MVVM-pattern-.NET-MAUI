@@ -2,12 +2,14 @@
 using CommunityToolkit.Mvvm.Input;
 using Recipes.Client.Core.Features.Favorites;
 using Recipes.Client.Core.Features.Recipes;
+using Recipes.Client.Core.Navigation;
 using System.Collections.ObjectModel;
 
 namespace Recipes.Client.Core.ViewModels;
 
 public class RecipesOverviewViewModel : ObservableObject
 {
+    private readonly INavigationService navigationService;
     private readonly IRecipeService recipeService;
     private readonly IFavoritesService favoritesService;
 
@@ -30,9 +32,12 @@ public class RecipesOverviewViewModel : ObservableObject
     public AsyncRelayCommand TryLoadMoreItemsCommand { get; }
     public AsyncRelayCommand NavigateToSelectedDetailCommand { get; }
 
-    public RecipesOverviewViewModel(IRecipeService recipeService, 
-        IFavoritesService favoritesService)
+    public RecipesOverviewViewModel(
+        IRecipeService recipeService, 
+        IFavoritesService favoritesService,
+        INavigationService navigationService)
     {
+        this.navigationService = navigationService;
         this.recipeService = recipeService;
         this.favoritesService = favoritesService;
 
@@ -64,14 +69,13 @@ public class RecipesOverviewViewModel : ObservableObject
         });
     }
 
-    private Task NavigateToSelectedDetail()
+    private async Task NavigateToSelectedDetail()
     {
         if (SelectedRecipe is not null)
         {
-            //ToDo navigate to selected item
+            await navigationService.GoToRecipeDetail(SelectedRecipe.Id);
             SelectedRecipe = null;
         }
-        return Task.CompletedTask;
     }
 
     private async Task TryLoadMoreItems()

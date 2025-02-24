@@ -10,10 +10,4 @@ public partial class RecipesOverviewPage : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
-
-    private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.Count != 0)
-            Shell.Current.GoToAsync("RecipeDetail");
-    }
 }
