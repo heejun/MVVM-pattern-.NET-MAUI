@@ -24,7 +24,9 @@ public static class MauiProgram
             });
         builder.UseMauiCommunityToolkit();
 
-        builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<NavigationService>();
+        builder.Services.AddSingleton<INavigationService>(sp => sp.GetRequiredService<NavigationService>());
+        builder.Services.AddSingleton<INavigationInterceptor>(sp => sp.GetRequiredService<NavigationService>());
 
         builder.Services.AddTransient<RecipesOverviewPage>();
         builder.Services.AddTransient<RecipesOverviewViewModel>();

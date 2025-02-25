@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Recipes.Client.Core.ViewModels;
 
-public class RecipesOverviewViewModel : ObservableObject
+public class RecipesOverviewViewModel : ObservableObject, INavigatedFrom, INavigatedTo
 {
     private readonly INavigationService navigationService;
     private readonly IRecipeService recipeService;
@@ -80,4 +80,14 @@ public class RecipesOverviewViewModel : ObservableObject
 
     private async Task TryLoadMoreItems()
         => await LoadRecipes(7, Recipes.Count / 7);
+
+    public Task OnNavigatedFrom(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task OnNavigatedTo(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
+    }
 }

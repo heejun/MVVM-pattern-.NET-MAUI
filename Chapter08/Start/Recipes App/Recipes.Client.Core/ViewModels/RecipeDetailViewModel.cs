@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace Recipes.Client.Core.ViewModels;
 
-public partial class RecipeDetailViewModel : ObservableObject
+public partial class RecipeDetailViewModel : ObservableObject, INavigationParameterReceiver, INavigatedFrom, INavigatedTo
 {
     private readonly INavigationService navigationService;
     private readonly IRecipeService recipeService;
@@ -137,8 +137,6 @@ public partial class RecipeDetailViewModel : ObservableObject
         RemoveFromShoppingListCommand = new RelayCommand<RecipeIngredientViewModel>(RemoveFromShoppingList);
 
         NavigateToRatingsCommand = new AsyncRelayCommand(NavigateToRatings);
-
-        LoadRecipe("3");
     }
 
     private async Task LoadRecipe(string recipeId)
@@ -217,4 +215,16 @@ public partial class RecipeDetailViewModel : ObservableObject
     }
 
     private Task NavigateToRatings() => navigationService.GoToRecipeRatingDetail(recipeDto);
+
+    public Task OnNavigatedTo(Dictionary<string, object> parameters) => LoadRecipe(parameters["id"].ToString());
+
+    public Task OnNavigatedFrom(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task OnNavigatedTo(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
+    }
 }

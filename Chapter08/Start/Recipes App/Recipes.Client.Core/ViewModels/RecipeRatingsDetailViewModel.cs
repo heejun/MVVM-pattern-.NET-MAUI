@@ -2,12 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using Recipes.Client.Core.Features.Ratings;
 using Recipes.Client.Core.Features.Recipes;
+using Recipes.Client.Core.Navigation;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
 namespace Recipes.Client.Core.ViewModels;
 
-public class RecipeRatingsDetailViewModel : ObservableObject
+public class RecipeRatingsDetailViewModel : ObservableObject, INavigationParameterReceiver
 {
     private readonly IRatingsService ratingsService;
 
@@ -64,5 +65,14 @@ public class RecipeRatingsDetailViewModel : ObservableObject
             .Cast<UserReviewViewModel>().ToList();
         //do reporting
         SelectedReviews.Clear();
+    }
+
+    public Task OnNavigatedTo(Dictionary<string, object> parameters)
+    {
+        if (parameters["recipe"] is RecipeDetailDto recipeDatailDto)
+        {
+            return LoadData(recipeDatailDto);
+        }
+        return Task.CompletedTask;
     }
 }

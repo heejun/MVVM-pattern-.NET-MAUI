@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Recipes.Client.Core.Messages;
+using Recipes.Client.Core.Navigation;
 
 namespace Recipes.Client.Core.ViewModels;
 
-public class RecipeIngredientViewModel : ObservableObject
+public class RecipeIngredientViewModel : ObservableObject, INavigatedFrom, INavigatedTo
 {
     readonly int baseServings;
     readonly double baseAmount;
@@ -39,5 +40,15 @@ public class RecipeIngredientViewModel : ObservableObject
     {
         var factor = servings / (double)baseServings;
         DisplayAmount = factor * baseAmount;
+    }
+
+    public Task OnNavigatedFrom(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
+    }
+
+    public Task OnNavigatedTo(NavigationType navigationType)
+    {
+        return Task.CompletedTask;
     }
 }

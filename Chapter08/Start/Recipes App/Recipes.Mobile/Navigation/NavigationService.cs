@@ -8,8 +8,32 @@ using System.Threading.Tasks;
 
 namespace Recipes.Mobile.Navigation;
 
-public class NavigationService : INavigationService
+public class NavigationService : INavigationService, INavigationInterceptor
 {
+    WeakReference<INavigatedFrom> _previousFrom;
+
+    public async Task OnNavigatedTo(object bindingConetext, NavigationType navigationType)
+    {
+        if (_previousFrom is not null && _previousFrom.TryGetTarget(out INavigatedFrom from))
+        {
+            await from.OnNavigatedFrom(navigationType);
+        }
+
+        if (bindingConetext is INavigatedTo to)
+        {
+            await to.OnNavigatedTo(navigationType);
+        }
+
+        if (bindingConetext is INavigatedFrom navigatedFrom)
+        {
+            _previousFrom = new (navigatedFrom);
+        }
+        else
+        {
+            _previousFrom = null;
+        }
+    }
+
     public Task GoBack()
         => Shell.Current.GoToAsync("..");
 
@@ -20,5 +44,11 @@ public class NavigationService : INavigationService
         => Navigate("RecipeRating", new() {{"recipe", recipe}});
 
     private async Task Navigate(string pageName, Dictionary<string, object> parameters)
-        => await Shell.Current.GoToAsync(pageName);
+    {
+        await Shell.Current.GoToAsync(pageName);
+        if (Shell.Current.CurrentPage.BindingContext is INavigationParameterReceiver receiver)
+        {
+            await receiver.OnNavigatedTo(parameters);
+        }
+    }
 }
