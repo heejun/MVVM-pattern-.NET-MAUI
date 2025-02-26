@@ -7,6 +7,7 @@ using Recipes.Client.Core.Navigation;
 using Recipes.Client.Core.Services;
 using Recipes.Client.Core.ViewModels;
 using Recipes.Client.Repositories;
+using Recipes.Mobile.Misc;
 using Recipes.Mobile.Navigation;
 using Recipes.Mobile.Services;
 
@@ -64,6 +65,11 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<INavigationInterceptor>(
             c => c.GetRequiredService<NavigationService>());
+
+        var baseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.10.2.2:7220" : "https://localhost:7220";
+        var httpClient = HttpClientHelper.GetPlatformHttpClient(baseAddress);
+        builder.Services.RegisterRepositories(new RepositorySettings(httpClient));
+
         Routing.RegisterRoute("Overview", typeof(RecipesOverviewPage));
         Routing.RegisterRoute("RecipeDetail", typeof(RecipeDetailPage));
         Routing.RegisterRoute("RecipeRating", typeof(RecipeRatingDetailPage));

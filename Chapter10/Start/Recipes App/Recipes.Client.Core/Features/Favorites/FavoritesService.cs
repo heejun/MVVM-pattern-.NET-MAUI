@@ -5,16 +5,41 @@ namespace Recipes.Client.Core.Features.Favorites;
 
 public class FavoritesService : IFavoritesService
 {
+    readonly IFavoritesRepository _favoritesRepository;
+
     List<string> favorites = null;
+
+    public FavoritesService(IFavoritesRepository favoritesRepository)
+    {
+        _favoritesRepository = favoritesRepository;
+    }
 
     public async Task<Result<Nothing>> Add(string id)
     {
-        throw new NotImplementedException();
+        var result = await _favoritesRepository.Add(GetCurrentUserId(), id);
+        if (result.IsSuccess)
+        {
+            if (favorites is not null && !favorites.Contains(id))
+            {
+                favorites.Add(id);
+            }
+            WeakReferenceMessenger.Default.Send(new FavoriteUpdateMessage(id, true));
+        }
+        return result;
     }
 
     public async Task<Result<Nothing>> Remove(string id)
     {
-        throw new NotImplementedException();
+        var result = await _favoritesRepository.Remove(GetCurrentUserId(), id);
+        if (result.IsSuccess)
+        {
+            if (favorites is not null && favorites.Contains(id))
+            {
+                favorites.Remove(id);
+            }
+            WeakReferenceMessenger.Default.Send(new FavoriteUpdateMessage(id, false));
+        }
+        return result;
     }
 
     public async Task<bool> IsFavorite(string id)
@@ -31,7 +56,14 @@ public class FavoritesService : IFavoritesService
 
     private async ValueTask LoadList()
     {
-        throw new NotImplementedException();
+        if (favorites is null)
+        {
+            var loadResult = await _favoritesRepository.LoadFavorites(GetCurrentUserId());
+            if (loadResult.IsSuccess)
+            {
+                favorites = loadResult.Data.ToList();
+            }
+        }
     }
 
     private string GetCurrentUserId()

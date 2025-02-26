@@ -2,8 +2,15 @@
 
 public class RatingsService : IRatingsService
 {
+    readonly IRatingsRepository _ratingsRepository;
+
+    public RatingsService(IRatingsRepository ratingsRepository)
+    {
+        _ratingsRepository = ratingsRepository;
+    }
+
     public Task<Result<RatingsSummary>> LoadRatingsSummary(string recipeId)
-        => throw new NotImplementedException();
+        => _ratingsRepository.GetRatingsSummary(recipeId);
     public Task<Result<IReadOnlyCollection<Rating>>> LoadRatings(string recipeId)
-        => throw new NotImplementedException();
+        => _ratingsRepository.GetRatings(recipeId);
 }

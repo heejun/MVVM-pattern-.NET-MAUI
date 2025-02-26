@@ -2,10 +2,17 @@
 
 public class RecipeService : IRecipeService
 {
+    readonly IRecipeRepository _recipeRepository;
+
+    public RecipeService(IRecipeRepository recipeRepository)
+    {
+        _recipeRepository = recipeRepository;
+    }
+
     public Task<Result<RecipeDetail>> LoadRecipe(string id)
-        => throw new NotImplementedException();
+        => _recipeRepository.LoadRecipe(id);
 
     public Task<Result<LoadRecipesResponse>> LoadRecipes(
         int pageSize = 7, int page = 0)
-        => throw new NotImplementedException();
+        => _recipeRepository.LoadRecipes(pageSize, page);
 }
