@@ -3,6 +3,7 @@
     x:Class="Recipes.Mobile.RecipeDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Recipes.Mobile.Controls"
     xmlns:conv="clr-namespace:Recipes.Mobile.Converters"
     xmlns:selectors="clr-namespace:Recipes.Mobile.TemplateSelectors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -14,11 +15,6 @@
         <conv:RatingAndReviewsToColorConverter x:Key="ratingAndReviewsToColorConverter" />
         <conv:InverseBoolConverter x:Key="inverseBoolConverter" />
         <toolkit:ListToStringConverter x:Key="listToStringConverter" Separator=", " />
-        <toolkit:BoolToObjectConverter
-            x:Key="isFavoriteToColorConverter"
-            x:TypeArguments="Color"
-            FalseObject="#E9E9E9E9"
-            TrueObject="#FF0000" />
         <DataTemplate x:Key="instructionTemplate" x:DataType="vms:InstructionViewModel">
             <VerticalStackLayout Spacing="10">
                 <Label FontSize="20" Text="{Binding Index, StringFormat='{0:D2}.', Mode=OneTime}" />
@@ -43,6 +39,20 @@
             x:Key="instructionDataTemplateSelector"
             InstructionTemplate="{StaticResource instructionTemplate}"
             NoteTemplate="{StaticResource noteTemplate}" />
+        <ControlTemplate x:Key="FavoriteTemplate">
+            <VerticalStackLayout>
+                <Label
+                    FontSize="10"
+                    HorizontalOptions="Center"
+                    Text="Favorite?" />
+                <Switch
+                    x:Name="scalableContent"
+                    HorizontalOptions="Center"
+                    InputTransparent="True"
+                    IsEnabled="{Binding IsInteractive, Source={RelativeSource TemplatedParent}}"
+                    IsToggled="{Binding IsFavorite, Source={RelativeSource TemplatedParent}, Mode=OneWay}" />
+            </VerticalStackLayout>
+        </ControlTemplate>
     </ContentPage.Resources>
     <Grid>
         <ScrollView>
@@ -56,18 +66,15 @@
                         FontSize="22"
                         Text="{Binding Path=Title, Mode=OneWay}"
                         VerticalOptions="Center" />
-                    <Image
-                        x:Name="favoriteIcon"
+                    <controls:FavoriteControlTemplated
                         Grid.Column="1"
                         Margin="5"
+                        ControlTemplate="{StaticResource FavoriteTemplate}"
                         HeightRequest="35"
-                        Source="favorite.png"
+                        IsFavorite="{Binding IsFavorite}"
+                        ToggledCommand="{Binding FavoriteToggledCommand}"
                         VerticalOptions="Center"
-                        WidthRequest="35">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{Binding Source={x:Reference favoriteIcon}, Path=BindingContext.IsFavorite, Converter={StaticResource isFavoriteToColorConverter}}" />
-                        </Image.Behaviors>
-                    </Image>
+                        WidthRequest="35" />
                 </Grid>
 
                 <Label FontSize="8" HorizontalOptions="End">
