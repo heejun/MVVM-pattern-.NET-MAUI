@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization", "Localizatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization.Maui", "Localization.Maui\Localization.Maui.csproj", "{E5F9D6BB-6272-4242-A4FA-1F7BE23F75C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Client.Core.UnitTests", "Recipes.Client.Core.UnitTests\Recipes.Client.Core.UnitTests.csproj", "{6A9BD1F5-093E-4B83-AAFC-B67FCACFBD75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recipes.Mobile.UnitTests", "Recipes.Mobile.UnitTests\Recipes.Mobile.UnitTests.csproj", "{CB9682FF-C847-428E-A1C0-0C2C60AC5C5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 		{E5F9D6BB-6272-4242-A4FA-1F7BE23F75C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5F9D6BB-6272-4242-A4FA-1F7BE23F75C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5F9D6BB-6272-4242-A4FA-1F7BE23F75C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A9BD1F5-093E-4B83-AAFC-B67FCACFBD75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A9BD1F5-093E-4B83-AAFC-B67FCACFBD75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A9BD1F5-093E-4B83-AAFC-B67FCACFBD75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A9BD1F5-093E-4B83-AAFC-B67FCACFBD75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB9682FF-C847-428E-A1C0-0C2C60AC5C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB9682FF-C847-428E-A1C0-0C2C60AC5C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB9682FF-C847-428E-A1C0-0C2C60AC5C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB9682FF-C847-428E-A1C0-0C2C60AC5C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
